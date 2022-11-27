@@ -40,11 +40,18 @@ sed -i "s/bootstrap/argon/ig" feeds/luci/collections/luci/Makefile
 
 
 # 增加个性名字 ${Author} 默认为你的github帐号,修改时候把 ${Author} 替换成你要的
-sed -i "s/OpenWrt /${Author} compiled in $(TZ=UTC-8 date "+%Y.%m.%d") @ OpenWrt /g" "${ZZZ_PATH}"
+sed -i "s/OpenWrt /Tr0mbn1st compiled in $(TZ=UTC-8 date "+%Y.%m.%d") @ OpenWrt /g" "${ZZZ_PATH}"
+
+svn checkout https://github.com/trombonist852/custom/trunk/luci-app-filetransfer package/custom/luci-app-filetransfer-mod
+svn export https://github.com/trombonist852/custom/trunk/sysinfo.sh package/emortal/default-settings/files/
 
 
 # 设置首次登录后台密码为空（进入openwrt后自行修改密码）
 sed -i '/CYXluq4wUazHjmCDBCqXF/d' "${ZZZ_PATH}"
+
+#Modify Default Network Interface
+sed -i '/ucidef_set_interface_lan/s/eth0/eth1 eth2 eth3/g' package/base-files/files/etc/board.d/99-default_network
+sed -i '/ucidef_set_interface_wan/s/eth1/eth0/g' package/base-files/files/etc/board.d/99-default_network
 
 
 # 取消路由器每天跑分任务
